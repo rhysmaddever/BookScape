@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookScape</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>BookScape</h1>
+      </header>
+      <main>
+        <section id="add-book">
+          <h2>Add a Book</h2>
+          <form id="book-form">
+            <input type="text" id="title" placeholder="Book Title" required />
+            <input type="text" id="author" placeholder="Author" required />
+            <input
+              type="number"
+              id="rating"
+              placeholder="Rating (1-5)"
+              min="1"
+              max="5"
+              required
+            />
+            <textarea
+              id="review"
+              placeholder="Write a short review"
+              required
+            ></textarea>
+            <button type="submit">Add Book</button>
+          </form>
+        </section>
+        <section id="book-list">
+          <h2>Your Books</h2>
+          <ul id="books">
+            <!-- Book items will be dynamically added here -->
+          </ul>
+        </section>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
