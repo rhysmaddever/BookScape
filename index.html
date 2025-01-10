@@ -12,32 +12,56 @@
         <h1>BookScape</h1>
       </header>
       <main>
-        <section id="add-book">
+        <!-- Add a Book Section -->
+        <section id="add-book-section">
           <h2>Add a Book</h2>
           <form id="book-form">
-            <input type="text" id="title" placeholder="Book Title" required />
-            <input type="text" id="author" placeholder="Author" required />
+            <input
+              type="text"
+              id="book-title"
+              placeholder="Book Title"
+              required
+            />
+            <input type="text" id="book-author" placeholder="Author" required />
+            <input type="text" id="book-genre" placeholder="Genre" required />
+            <button type="submit">Add Book</button>
+          </form>
+        </section>
+
+        <!-- Book List Section -->
+        <section id="book-list-section">
+          <h2>Your Books</h2>
+          <ul id="book-list"></ul>
+        </section>
+
+        <!-- Add a Review Section -->
+        <section id="add-review-section">
+          <h2>Add a Review</h2>
+          <form id="review-form">
+            <select id="select-book" required>
+              <option value="" disabled selected>Select a Book</option>
+            </select>
             <input
               type="number"
-              id="rating"
+              id="review-rating"
               placeholder="Rating (1-5)"
               min="1"
               max="5"
               required
             />
             <textarea
-              id="review"
-              placeholder="Write a short review"
+              id="review-comment"
+              placeholder="Write your review"
               required
             ></textarea>
-            <button type="submit">Add Book</button>
+            <button type="submit">Add Review</button>
           </form>
         </section>
-        <section id="book-list">
-          <h2>Your Books</h2>
-          <ul id="books">
-            <!-- Book items will be dynamically added here -->
-          </ul>
+
+        <!-- Review List Section -->
+        <section id="review-list-section">
+          <h2>Book Reviews</h2>
+          <ul id="review-list"></ul>
         </section>
       </main>
     </div>
