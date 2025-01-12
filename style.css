@@ -1,64 +1,103 @@
+/* Global Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: #FAF3E0; /* Soft beige background */
+  color: #2C3E50; /* Charcoal gray text */
+}
+
+h1, h2, h3 {
+  color: #800020; /* Deep burgundy for headings */
 }
 
 header {
-  background-color: #4caf50;
-  color: white;
-  padding: 1rem;
+  background-color: #2C3E50; /* Dark navy */
+  color: #FAF3E0; /* Light beige text */
+  padding: 0.8rem 0; /* Reduced padding */
   text-align: center;
+  border-bottom: 3px solid #800020; /* Deep burgundy border */
+  font-size: 1.4rem; /* Smaller font size */
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 main {
-  padding: 1rem;
   max-width: 800px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 1rem auto; /* Reduced top and bottom margin */
+  padding: 1rem;
+  background-color: #FFFFFF; /* White for card-like sections */
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 section {
-  margin-bottom: 2rem;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-input, textarea, select, button {
-  padding: 0.8rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  margin-bottom: 1rem; /* Reduced section spacing */
 }
 
 button {
-  background-color: #4caf50;
-  color: white;
+  background-color: #800020; /* Deep burgundy */
+  color: #FAF3E0; /* Light beige text */
   border: none;
+  padding: 0.6rem 1rem; /* Reduced button padding */
+  font-size: 0.9rem; /* Smaller button font size */
+  font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #660017; /* Darker burgundy */
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 0.5rem; /* Reduced input padding */
+  margin-top: 0.5rem;
+  margin-bottom: 0.8rem; /* Reduced margin */
+  border: 1px solid #757575; /* Light gray borders */
+  border-radius: 5px;
+  font-size: 0.9rem; /* Slightly smaller input font size */
+  background-color: #FAF3E0; /* Beige input background */
+  color: #2C3E50; /* Charcoal gray text */
+}
+
+input::placeholder, textarea::placeholder {
+  color: #757575; /* Subtle placeholder text */
 }
 
 ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
 }
 
 li {
-  background: #f1f1f1;
-  margin: 0.5rem 0;
-  padding: 1rem;
+  margin-bottom: 0.8rem; /* Reduced margin between list items */
+  padding: 0.8rem; /* Reduced padding inside list items */
+  background-color: #F5E6CC; /* Light cream for book entries */
+  border: 1px solid #800020; /* Deep burgundy border */
   border-radius: 5px;
+}
+
+small {
+  color: #757575; /* Secondary text color */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  main {
+    padding: 0.8rem; /* Smaller padding for smaller screens */
+  }
+
+  header {
+    font-size: 1.2rem; /* Smaller header font size on smaller screens */
+    padding: 0.6rem 0; /* Reduced padding for compactness */
+  }
+
+  button {
+    padding: 0.5rem 0.8rem; /* Smaller button padding */
+    font-size: 0.8rem; /* Smaller button font */
+  }
 }
