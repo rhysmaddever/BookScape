@@ -101,3 +101,13 @@ small {
     font-size: 0.8rem; /* Smaller button font */
   }
 }
+
+/* New styles for review section */
+#review-list-section ul li {
+  background-color: #E6F3FF; /* Light sky blue for reviews */
+  color: #333;
+}
+
+#review-list-section ul li small {
+  color: #666;
+}

@@ -1,5 +1,4 @@
-// Clear all stored data from localStorager on page load
-localStorage.clear();
+// Functionality.js
 
 // Core Classes
 class Book {
@@ -36,15 +35,46 @@ class BookManager {
 
   addBook(book) {
     this.books.push(book);
-    this.saveToJSON();
+    this.saveToJSONFile();
   }
 
   findBookById(bookId) {
     return this.books.find(book => book.bookId === bookId);
   }
 
-  saveToJSON() {
-    localStorage.setItem("books", JSON.stringify(this.books));
+  saveToJSONFile() {
+    const jsonString = JSON.stringify(this.books);
+    const blob = new Blob([jsonString], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'books.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  loadFromJSONFile() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          this.books = data.map(book => 
+            new Book(book.bookId, book.title, book.author, book.genre)
+          );
+          displayBooks();
+          displayReviews();
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
   }
 
   loadFromJSON() {
@@ -62,53 +92,67 @@ class BookManager {
 // Initialize BookManager
 const bookManager = new BookManager();
 bookManager.loadFromJSON();
-updateBookDropdown();
-displayBooks();
 
 // Event Listeners
-document.getElementById("book-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const title = document.getElementById("book-title").value.trim();
-  const author = document.getElementById("book-author").value.trim();
-  const genre = document.getElementById("book-genre").value.trim();
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById("book-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log("Book form submitted");
+    const title = document.getElementById("book-title").value.trim();
+    const author = document.getElementById("book-author").value.trim();
+    const genre = document.getElementById("book-genre").value.trim();
 
-  if (title && author && genre) {
-    const newBook = new Book(Date.now().toString(), title, author, genre);
-    bookManager.addBook(newBook);
+    if (title && author && genre) {
+      console.log("Valid book data entered");
+      const newBook = new Book(Date.now().toString(), title, author, genre);
+      bookManager.addBook(newBook);
 
-    // Update UI
-    updateBookDropdown();
-    displayBooks();
-    e.target.reset();
-  } else {
-    alert("Please fill in all fields to add a book.");
-  }
+      // Update UI
+      updateBookDropdown();
+      displayBooks();
+      e.target.reset();
+    } else {
+      console.error("Invalid book data");
+      alert("Please fill in all fields to add a book.");
+    }
+  });
+
+  document.getElementById("review-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log("Review form submitted");
+    const bookId = document.getElementById("select-book").value;
+    const rating = parseInt(document.getElementById("review-rating").value, 10);
+    const comment = document.getElementById("review-comment").value.trim();
+
+    if (bookId && rating >= 1 && rating <= 5 && comment) {
+      console.log("Valid review data entered");
+      const book = bookManager.findBookById(bookId);
+      const newReview = new Review("user123", bookId, rating, comment);
+      book.reviews.push(newReview);
+
+      // Save updated book data
+      bookManager.saveToJSONFile();
+
+      // Update UI
+      displayReviews();
+      displayBooks();
+      e.target.reset();
+    } else {
+      console.error("Invalid review data");
+      alert("Please complete all fields and provide a valid rating (1-5).");
+    }
+  });
+
+  // Add button to load books from file
+  const loadButton = document.createElement('button');
+  loadButton.textContent = 'Load Books from File';
+  loadButton.onclick = () => bookManager.loadFromJSONFile();
+  document.body.appendChild(loadButton);
+
+  // Initial UI Load
+  displayReviews();
 });
 
-document.getElementById("review-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const bookId = document.getElementById("select-book").value;
-  const rating = parseInt(document.getElementById("review-rating").value, 10);
-  const comment = document.getElementById("review-comment").value.trim();
-
-  if (bookId && rating >= 1 && rating <= 5 && comment) {
-    const book = bookManager.findBookById(bookId);
-    const newReview = new Review("user123", bookId, rating, comment);
-    book.reviews.push(newReview);
-
-    // Save updated book data
-    bookManager.saveToJSON();
-
-    // Update UI
-    displayReviews();
-    displayBooks();
-    e.target.reset();
-  } else {
-    alert("Please complete all fields and provide a valid rating (1-5).");
-  }
-});
-
-// Display Functions
 function updateBookDropdown() {
   const dropdown = document.getElementById("select-book");
   dropdown.innerHTML = '<option value="" disabled selected>Select a Book</option>';
@@ -148,6 +192,3 @@ function displayReviews() {
     });
   });
 }
-
-// Initial UI Load
-displayReviews();
