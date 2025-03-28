@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Function to show a pop-up message
 function showPopupMessage(message, type = "success") {
   const popup = document.createElement("div");
@@ -9,6 +10,9 @@ function showPopupMessage(message, type = "success") {
     popup.remove();
   }, 3000);
 }
+=======
+// Functionality.js
+>>>>>>> fa1e01e50f4289b7662b5eed413accc2bae4fadd
 
 // Core Classes
 class Book {
@@ -41,6 +45,7 @@ class BookManager {
 
   addBook(book) {
     this.books.push(book);
+<<<<<<< HEAD
     this.saveToJSON();
     updateBookDropdown(); // Update dropdown after adding a book
     showPopupMessage("📖 Book added successfully!", "success"); // Show pop-up
@@ -53,12 +58,16 @@ class BookManager {
     updateBookDropdown();
     displayBooks();
     showPopupMessage("🗑️ Book deleted.", "error"); // Show pop-up
+=======
+    this.saveToJSONFile();
+>>>>>>> fa1e01e50f4289b7662b5eed413accc2bae4fadd
   }
 
   findBookById(bookId) {
     return this.books.find(book => book.bookId === bookId);
   }
 
+<<<<<<< HEAD
   updateBookProgress(bookId, pages, pagesRead) {
     const book = this.findBookById(bookId);
     if (book) {
@@ -82,6 +91,41 @@ class BookManager {
 
   saveToJSON() {
     localStorage.setItem("books", JSON.stringify(this.books));
+=======
+  saveToJSONFile() {
+    const jsonString = JSON.stringify(this.books);
+    const blob = new Blob([jsonString], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'books.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  loadFromJSONFile() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          this.books = data.map(book => 
+            new Book(book.bookId, book.title, book.author, book.genre)
+          );
+          displayBooks();
+          displayReviews();
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+>>>>>>> fa1e01e50f4289b7662b5eed413accc2bae4fadd
   }
 
   loadFromJSON() {
@@ -92,6 +136,7 @@ class BookManager {
 
 // Initialize book manager
 const bookManager = new BookManager();
+<<<<<<< HEAD
 
 // Event Listeners for adding book
 document.getElementById("book-form").addEventListener("submit", function (e) {
@@ -150,6 +195,70 @@ document.getElementById("review-form").addEventListener("submit", function (e) {
 });
 
 // Update book dropdowns
+=======
+bookManager.loadFromJSON();
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById("book-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log("Book form submitted");
+    const title = document.getElementById("book-title").value.trim();
+    const author = document.getElementById("book-author").value.trim();
+    const genre = document.getElementById("book-genre").value.trim();
+
+    if (title && author && genre) {
+      console.log("Valid book data entered");
+      const newBook = new Book(Date.now().toString(), title, author, genre);
+      bookManager.addBook(newBook);
+
+      // Update UI
+      updateBookDropdown();
+      displayBooks();
+      e.target.reset();
+    } else {
+      console.error("Invalid book data");
+      alert("Please fill in all fields to add a book.");
+    }
+  });
+
+  document.getElementById("review-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log("Review form submitted");
+    const bookId = document.getElementById("select-book").value;
+    const rating = parseInt(document.getElementById("review-rating").value, 10);
+    const comment = document.getElementById("review-comment").value.trim();
+
+    if (bookId && rating >= 1 && rating <= 5 && comment) {
+      console.log("Valid review data entered");
+      const book = bookManager.findBookById(bookId);
+      const newReview = new Review("user123", bookId, rating, comment);
+      book.reviews.push(newReview);
+
+      // Save updated book data
+      bookManager.saveToJSONFile();
+
+      // Update UI
+      displayReviews();
+      displayBooks();
+      e.target.reset();
+    } else {
+      console.error("Invalid review data");
+      alert("Please complete all fields and provide a valid rating (1-5).");
+    }
+  });
+
+  // Add button to load books from file
+  const loadButton = document.createElement('button');
+  loadButton.textContent = 'Load Books from File';
+  loadButton.onclick = () => bookManager.loadFromJSONFile();
+  document.body.appendChild(loadButton);
+
+  // Initial UI Load
+  displayReviews();
+});
+
+>>>>>>> fa1e01e50f4289b7662b5eed413accc2bae4fadd
 function updateBookDropdown() {
   const dropdowns = [document.getElementById("select-book"), document.getElementById("select-progress-book"), document.getElementById("select-review-book")];
   dropdowns.forEach(dropdown => {
@@ -181,6 +290,7 @@ function displayBooks() {
   });
 }
 
+<<<<<<< HEAD
 // Initialize dropdown and book display
 updateBookDropdown();
 displayBooks();
@@ -220,3 +330,20 @@ document.getElementById("upload-json").addEventListener("change", function (even
     reader.readAsText(file);
   }
 });
+=======
+function displayReviews() {
+  const reviewList = document.getElementById("review-list");
+  reviewList.innerHTML = ""; // Clear previous content
+  bookManager.books.forEach(book => {
+    book.reviews.forEach(review => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <strong>${book.title}</strong> - Rating: ${review.rating}/5 <br>
+        "${review.comment}" <br>
+        <small>Reviewed on ${new Date(review.date).toLocaleDateString()}</small>
+      `;
+      reviewList.appendChild(li);
+    });
+  });
+}
+>>>>>>> fa1e01e50f4289b7662b5eed413accc2bae4fadd
