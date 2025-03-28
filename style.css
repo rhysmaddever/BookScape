@@ -98,7 +98,6 @@ li {
   }
 }
 
-<<<<<<< HEAD
 .popup-message {
   position: fixed;
   bottom: 20px;
@@ -129,14 +128,3 @@ li {
   opacity: 0;
 }
 
-=======
-/* New styles for review section */
-#review-list-section ul li {
-  background-color: #E6F3FF; /* Light sky blue for reviews */
-  color: #333;
-}
-
-#review-list-section ul li small {
-  color: #666;
-}
->>>>>>> fa1e01e50f4289b7662b5eed413accc2bae4fadd
