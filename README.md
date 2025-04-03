@@ -25,4 +25,4 @@ This project is a Single Page Application (SPA) designed to manage a user's book
 - localStorage for data persistence
 
 ---
-View the website here: https://rhysmaddever.github.io/BookScape/
+Visit the website here: https://rhysmaddever.github.io/BookScape/
