@@ -11,6 +11,10 @@ h1, h2, h3 {
   color: #154360; /* Dark blue for headings */
 }
 
+header h1 {
+  color: white;
+}
+
 header {
   background-color: #2C3E50;
   color: #FDFEFE;
